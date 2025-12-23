@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Signage Proof</title>
+    <style>
+      body { font-family: sans-serif; max-width: 1000px; margin: 20px auto; }
+      img { max-width: 100%; height: auto; border: 1px solid #ccc; }
+      label { display: block; margin-top: 10px; font-weight: 600; }
+      textarea, input { width: 100%; padding: 8px; margin-top: 4px; }
+      button { margin-top: 12px; padding: 8px 16px; }
+    </style>
+  </head>
+  <body>
+    <h1>Signage Proof for Review</h1>
+    <p>Please review the proof below and add any revision notes, then click “Submit Proof”.</p>
+
+    <img src="qtxa_job_proof_122325_v1.png" />
+
+    <label>
+      Client Name
+      <input id="clientName" />
+    </label>
+
+    <label>
+      Revision Notes
+      <textarea id="revisionNotes" rows="4"></textarea>
+    </label>
+
+    <button onclick="submitProof()">Submit Proof</button>
+
+    <p id="status"></p>
+
+    <script>
+      function submitProof() {
+        const name = document.getElementById('clientName').value;
+        const notes = document.getElementById('revisionNotes').value;
+        const url = window.location.href;
+        const mailto =
+          'mailto:you@yourcompany.com'
+          + '?subject=' + encodeURIComponent('Proof approval from ' + name)
+          + '&body=' + encodeURIComponent(
+              'Link: ' + url + '\\n\\nClient: ' + name + '\\n\\nNotes: ' + notes
+            );
+        window.location.href = mailto;
+        document.getElementById('status').innerText =
+          'Your email app should open with a draft. Please send it to complete approval.';
+      }
+    </script>
+  </body>
+</html>
