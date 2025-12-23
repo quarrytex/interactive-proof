@@ -2,20 +2,75 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Signage Proof</title>
+    <title>Signage Proof for Review</title>
     <style>
-      body { font-family: sans-serif; max-width: 1000px; margin: 20px auto; }
-      img { max-width: 100%; height: auto; border: 1px solid #ccc; }
-      label { display: block; margin-top: 10px; font-weight: 600; }
-      textarea, input { width: 100%; padding: 8px; margin-top: 4px; }
-      button { margin-top: 12px; padding: 8px 16px; }
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 0 10px;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ccc;
+        margin: 10px 0 20px 0;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 600;
+      }
+      textarea,
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        box-sizing: border-box;
+      }
+      button {
+        margin-top: 12px;
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+      ol {
+        padding-left: 20px;
+      }
+      ul {
+        padding-left: 20px;
+      }
     </style>
   </head>
   <body>
     <h1>Signage Proof for Review</h1>
-    <p>Please review the proof below and add any revision notes, then click “Submit Proof”.</p>
 
-    <img src="qtxa_job_proof_122325_v1.png" />
+    <p><strong>Instructions:</strong></p>
+    <ol>
+      <li>Review the proof image below carefully.</li>
+      <li>In <em>Client Name</em>, type your full name.</li>
+      <li>
+        In <em>Revision Notes</em>:
+        <ul>
+          <li>
+            If everything is correct, type:<br />
+            “Approved as is – [your name] – [today’s date]”.
+          </li>
+          <li>
+            If changes are needed, type:<br />
+            “Approved with changes – [your name] – [today’s date]”<br />
+            and list the requested changes.
+          </li>
+        </ul>
+      </li>
+      <li>Click <em>Submit Proof</em> to send us your approval email.</li>
+    </ol>
+
+    <!-- Update this file name to match your PNG if needed -->
+    <img src="qtxa_job_5_v1.png" alt="Signage proof" />
 
     <label>
       Client Name
@@ -36,12 +91,16 @@
         const name = document.getElementById('clientName').value;
         const notes = document.getElementById('revisionNotes').value;
         const url = window.location.href;
+
         const mailto =
-          'mailto:you@yourcompany.com'
-          + '?subject=' + encodeURIComponent('Proof approval from ' + name)
-          + '&body=' + encodeURIComponent(
-              'Link: ' + url + '\\n\\nClient: ' + name + '\\n\\nNotes: ' + notes
-            );
+          'mailto:you@yourcompany.com' +
+          '?subject=' +
+          encodeURIComponent('Proof approval from ' + name) +
+          '&body=' +
+          encodeURIComponent(
+            'Link: ' + url + '\n\nClient: ' + name + '\n\nNotes: ' + notes
+          );
+
         window.location.href = mailto;
         document.getElementById('status').innerText =
           'Your email app should open with a draft. Please send it to complete approval.';
