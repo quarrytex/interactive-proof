@@ -37,11 +37,12 @@
         padding: 8px 16px;
         cursor: pointer;
       }
-      ol {
-        padding-left: 20px;
-      }
+      ol,
       ul {
         padding-left: 20px;
+      }
+      .approval-options {
+        margin: 10px 0;
       }
     </style>
   </head>
@@ -51,34 +52,44 @@
     <p><strong>Instructions:</strong></p>
     <ol>
       <li>Review the proof image below carefully.</li>
-      <li>In <em>Client Name</em>, type your full name.</li>
+      <li>In the approval section, choose one option.</li>
+      <li>Enter your full name as your signature and today’s date.</li>
       <li>
-        In <em>Revision Notes</em>:
-        <ul>
-          <li>
-            If everything is correct, type:<br />
-            “Approved as is – [your name] – [today’s date]”.
-          </li>
-          <li>
-            If changes are needed, type:<br />
-            “Approved with changes – [your name] – [today’s date]”<br />
-            and list the requested changes.
-          </li>
-        </ul>
+        If you are requesting changes, list them clearly in the Revision Notes box.
       </li>
       <li>Click <em>Submit Proof</em> to send us your approval email.</li>
     </ol>
 
-    <!-- Update this file name to match your PNG if needed -->
+    <!-- Make sure this file name matches the PNG in your repo -->
     <img src="qtxa_job_proof_122325_v1.png" alt="Signage proof" />
 
+    <h2>Approval Section</h2>
+    <p>Please choose one option, then sign and date the proof.</p>
+
+    <div class="approval-options">
+      <label>
+        <input type="radio" name="decision" value="Approved as is" />
+        Approved as is
+      </label>
+      <br />
+      <label>
+        <input type="radio" name="decision" value="Approved with revisions" />
+        Approved with revisions
+      </label>
+    </div>
+
     <label>
-      Client Name
+      Client Name (Signature)
       <input id="clientName" />
     </label>
 
     <label>
-      Revision Notes
+      Date
+      <input id="approvalDate" placeholder="MM/DD/YYYY" />
+    </label>
+
+    <label>
+      Revision Notes (only if requesting changes)
       <textarea id="revisionNotes" rows="4"></textarea>
     </label>
 
@@ -89,17 +100,29 @@
     <script>
       function submitProof() {
         const name = document.getElementById('clientName').value;
+        const date = document.getElementById('approvalDate').value;
         const notes = document.getElementById('revisionNotes').value;
+
+        const decisionInput = document.querySelector(
+          'input[name="decision"]:checked'
+        );
+        const decision = decisionInput ? decisionInput.value : 'No option selected';
+
         const url = window.location.href;
+
+        const bodyText =
+          'Link: ' + url +
+          '\n\nDecision: ' + decision +
+          '\nClient (signature): ' + name +
+          '\nDate: ' + date +
+          '\n\nRevision Notes:\n' + notes;
 
         const mailto =
           'mailto:you@yourcompany.com' +
           '?subject=' +
           encodeURIComponent('Proof approval from ' + name) +
           '&body=' +
-          encodeURIComponent(
-            'Link: ' + url + '\n\nClient: ' + name + '\n\nNotes: ' + notes
-          );
+          encodeURIComponent(bodyText);
 
         window.location.href = mailto;
         document.getElementById('status').innerText =
