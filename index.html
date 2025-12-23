@@ -37,27 +37,11 @@
         padding: 8px 16px;
         cursor: pointer;
       }
-      ol,
-      ul {
+      ol {
         padding-left: 20px;
       }
-      .approval-options {
-        margin: 10px 0;
-      }
-      .approval-option-line {
-        display: flex;
-        align-items: center;
-        margin: 4px 0;
-        font-weight: 600;
-      }
-      .approval-option-line input {
-        width: auto;
-        margin-right: 6px;
-      }
-      .disclaimer {
-        margin-top: 30px;
-        font-size: 12px;
-        line-height: 1.4;
+      ul {
+        padding-left: 20px;
       }
     </style>
   </head>
@@ -66,43 +50,35 @@
 
     <p><strong>Instructions:</strong></p>
     <ol>
-      <li>Enter the Ref # for this job.</li>
       <li>Review the proof image below carefully.</li>
-      <li>In the approval section, choose one option.</li>
-      <li>Enter your full name as your signature and today’s date.</li>
-      <li>If you are requesting changes, list them clearly in the Revision Notes box.</li>
+      <li>In <em>Client Name</em>, type your full name.</li>
+      <li>
+        In <em>Revision Notes</em>:
+        <ul>
+          <li>
+            If everything is correct, type:<br />
+            “Approved as is – [your name] – [today’s date]”.
+          </li>
+          <li>
+            If changes are needed, type:<br />
+            “Approved with changes – [your name] – [today’s date]”<br />
+            and list the requested changes.
+          </li>
+        </ul>
+      </li>
       <li>Click <em>Submit Proof</em> to send us your approval email.</li>
     </ol>
 
-    <!-- Make sure this file name matches the PNG in your repo -->
-    <img src="qtx-interactiveproof.png" alt="Signage proof" />
-
-    <h2>Approval Section</h2>
-    <p>Please choose one option, then sign and date the proof.</p>
-
-    <div class="approval-options">
-      <div class="approval-option-line">
-        <input type="radio" name="decision" value="Approved as is" />
-        <span>Approved as is</span>
-      </div>
-      <div class="approval-option-line">
-        <input type="radio" name="decision" value="Approved with revisions" />
-        <span>Approved with revisions</span>
-      </div>
-    </div>
+    <!-- Update this file name to match your PNG if needed -->
+    <img src="qtxa_job_proof_122325_v1.png" alt="Signage proof" />
 
     <label>
-      Client Name (Signature)
+      Client Name
       <input id="clientName" />
     </label>
 
     <label>
-      Date
-      <input id="approvalDate" placeholder="MM/DD/YYYY" />
-    </label>
-
-    <label>
-      Revision Notes (only if requesting changes)
+      Revision Notes
       <textarea id="revisionNotes" rows="4"></textarea>
     </label>
 
@@ -110,22 +86,25 @@
 
     <p id="status"></p>
 
-    <div class="disclaimer">
-      <strong>Proof Disclaimer (sample — customize with your attorney):</strong>
-      <br />
-      Please review this proof carefully for accuracy, including all text,
-      spelling, grammar, layout, sizes, colors, and contact information. Your
-      approval confirms that all details are correct and authorizes Quarry Tex
-      to proceed with production. You acknowledge that colors shown on screen
-      may differ slightly from final printed colors. Quarry Tex is not
-      responsible for any errors or omissions that were present on this
-      approved proof; any changes or reprints requested after approval will be
-      treated as new work and billed accordingly.
-    </div>
-
     <script>
       function submitProof() {
-        const ref = document.getElementById('refNumber').value;
         const name = document.getElementById('clientName').value;
-        const date = document.getElementById('approvalDate').value;
-        const
+        const notes = document.getElementById('revisionNotes').value;
+        const url = window.location.href;
+
+        const mailto =
+          'mailto:you@yourcompany.com' +
+          '?subject=' +
+          encodeURIComponent('Proof approval from ' + name) +
+          '&body=' +
+          encodeURIComponent(
+            'Link: ' + url + '\n\nClient: ' + name + '\n\nNotes: ' + notes
+          );
+
+        window.location.href = mailto;
+        document.getElementById('status').innerText =
+          'Your email app should open with a draft. Please send it to complete approval.';
+      }
+    </script>
+  </body>
+</html>
