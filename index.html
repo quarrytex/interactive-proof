@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Signage Proof for Review</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 0 10px;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ccc;
+        margin: 10px 0 20px 0;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 600;
+      }
+      textarea,
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        box-sizing: border-box;
+      }
+      button {
+        margin-top: 12px;
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+      ol,
+      ul {
+        padding-left: 20px;
+      }
+      .approval-options {
+        margin: 10px 0;
+      }
+      .approval-option-line {
+        display: flex;
+        align-items: center;
+        margin: 4px 0;
+        font-weight: 600;
+      }
+      .approval-option-line input {
+        width: auto;
+        margin-right: 6px;
+      }
+      .disclaimer {
+        margin-top: 30px;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Signage Proof for Review</h1>
+
+    <p><strong>Instructions:</strong></p>
+    <ol>
+      <li>Enter the Ref # for this job.</li>
+      <li>Review the proof image below carefully.</li>
+      <li>In the approval section, choose one option.</li>
+      <li>Enter your full name as your signature and today’s date.</li>
+      <li>If you are requesting changes, list them clearly in the Revision Notes box.</li>
+      <li>Click <em>Submit Proof</em> to send us your approval email.</li>
+    </ol>
+
+    <!-- Make sure this file name matches the PNG in your repo -->
+    <img src="qtxa_job_5_v1.png" alt="Signage proof" />
+
+    <h2>Approval Section</h2>
+    <p>Please choose one option, then sign and date the proof.</p>
+
+    <div class="approval-options">
+      <div class="approval-option-line">
+        <input type="radio" name="decision" value="Approved as is" />
+        <span>Approved as is</span>
+      </div>
+      <div class="approval-option-line">
+        <input type="radio" name="decision" value="Approved with revisions" />
+        <span>Approved with revisions</span>
+      </div>
+    </div>
+
+    <label>
+      Client Name (Signature)
+      <input id="clientName" />
+    </label>
+
+    <label>
+      Date
+      <input id="approvalDate" placeholder="MM/DD/YYYY" />
+    </label>
+
+    <label>
+      Revision Notes (only if requesting changes)
+      <textarea id="revisionNotes" rows="4"></textarea>
+    </label>
+
+    <button onclick="submitProof()">Submit Proof</button>
+
+    <p id="status"></p>
+
+    <div class="disclaimer">
+      <strong>Proof Disclaimer (sample — customize with your attorney):</strong>
+      <br />
+      Please review this proof carefully for accuracy, including all text,
+      spelling, grammar, layout, sizes, colors, and contact information. Your
+      approval confirms that all details are correct and authorizes Quarry Tex
+      to proceed with production. You acknowledge that colors shown on screen
+      may differ slightly from final printed colors. Quarry Tex is not
+      responsible for any errors or omissions that were present on this
+      approved proof; any changes or reprints requested after approval will be
+      treated as new work and billed accordingly.
+    </div>
+
+    <script>
+      function submitProof() {
+        const ref = document.getElementById('refNumber').value;
+        const name = document.getElementById('clientName').value;
+        const date = document.getElementById('approvalDate').value;
+        const notes = document.getElementById('revisionNotes').value;
+
+        const decisionInput = document.querySelector(
+          'input[name="decision"]:checked'
+        );
+        const decision = decisionInput ? decisionInput.value : 'No option selected';
+
+        const url = window.location.href;
+
+        const bodyText =
+          'Link: ' + url +
+          '\nRef #: ' + ref +
+          '\n\nDecision: ' + decision +
+          '\nClient (signature): ' + name +
+          '\nDate: ' + date +
+          '\n\nRevision Notes:\n' + notes +
+          '\n\nProof Disclaimer:\n' +
+          'Client confirms that all details are correct and authorizes Quarry Tex to proceed. ' +
+          'Colors may vary between screen and final output. Quarry Tex is not responsible for ' +
+          'errors present on this approved proof; any changes or reprints after approval will ' +
+          'be treated as new work and billed accordingly.';
+
+        const mailto =
+          'mailto:you@yourcompany.com' +
+          '?subject=' +
+          encodeURIComponent('Proof approval for Ref # ' + ref + ' from ' + name) +
+          '&body=' +
+          encodeURIComponent(bodyText);
+
+        window.location.href = mailto;
+        document.getElementById('status').innerText =
+          'Your email app should open with a draft. Please send it to complete approval.';
+      }
+    </script>
+  </body>
+</html>
